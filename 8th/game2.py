@@ -52,4 +52,6 @@ def score_game(random_predict) -> int:
 # change
 if __name__ == '__main__':
     score_game(random_predict)
+    
+print('new string')
         
