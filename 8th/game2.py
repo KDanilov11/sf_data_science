@@ -3,55 +3,68 @@ PC guesses the number itself"""
     
 import numpy as np
     
-number = np.random.randint(1, 101) # загадываем число
+# number = np.random.randint(1, 101) # загадываем число
 
 def random_predict(number:int=1) -> int:
     """ Guess  number randomly
 
     Args:
-        number (int, optional): number to guess. Defaults to 1.
+        predict_number (int, optional): number to guess. Defaults to 1.
 
     Returns:
-        int: count
+        int: How many tries to guess the number
     """ 
     
-    count = 0
+    predict_number = np.random.randint(1, 101) # загадываем число
+    
+    count = 0 # Tries count
+    min_number = 1 # Define min value
+    max_number = 100 # Define MAX value
         
     while True:
         count += 1
-        predict_number = np.random.randint(1, 101)                    
-        if  number == predict_number:
+        print('Given number:', number, 'Guess:', predict_number, ':', 'Try:', count)
+
+        if predict_number > number:
+           max_number = predict_number - 1
+           predict_number = (max_number + min_number) // 2
+ 
+ 
+        elif predict_number < number:
+           min_number = predict_number + 1
+           predict_number = (max_number + min_number) // 2
+        else:
+            print(f'The algoritm guessed the number {number} after {count} tries')
             break
-    return(count)
+    return count
+random_predict()
 
 print(f'number of tries: {random_predict()}')
 
 def score_game(random_predict) -> int:
-    """За какое количество попыток в среднем из 1000 подходов угадывает наш алгоритм
+    """What's the average number of tries out of 1000 runs to guess the number
 
     Args:
-        random_predict ([type]): функция угадывания
+        random_predict ([type]): Number guessing function
 
     Returns:
-        int: среднее количество попыток
+        int: Average number of tries
     """
 
-    count_ls = [] # список для сохранения количества попыток
-    np.random.seed(1) # фиксируем сид для воспроизводимости, те рял соучайныз чисел будет всегда одинаковым
-    random_array = np.random.randint(1, 101, size=(1000)) # загадали список чисел
+    count_ls = [] # list to store number of tries
+    np.random.seed(1) # determine a seed to make results replicable
+    random_array = np.random.randint(1, 101, size=(1000)) # creating a list of numbers to guess
 
     for number in random_array:
         count_ls.append(random_predict(number))
 
-    score = int(np.mean(count_ls)) # находим среднее количество попыток
+    score = int(np.mean(count_ls)) # finds the average number of tries
 
-    print(f'Ваш алгоритм угадывает число в среднем за: {score} попыток')
+    print(f'Average number of tries is {score}')
     return(score)
 
-# RUN
-# change
+
 if __name__ == '__main__':
     score_game(random_predict)
     
-print('new string')
         
